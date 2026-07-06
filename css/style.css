@@ -25,12 +25,25 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   background: var(--cream);
   color: var(--text-dark);
   font-family: "Inter", sans-serif;
   font-size: 16px;
   line-height: 1.5;
+}
+
+/* Subtle film-grain texture — a quiet, tactile layer over every section,
+   flat colour alone reads a little sterile at this scale. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 h1, h2, h3 {
@@ -60,12 +73,25 @@ img {
 }
 
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: "Inter", sans-serif;
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--terracotta);
+}
+
+.bean-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
 }
 
 .section-heading {
@@ -78,8 +104,22 @@ img {
 }
 
 .section-heading h2 {
+  position: relative;
+  padding-bottom: 18px;
   font-size: clamp(28px, 4vw, 40px);
   color: var(--text-dark);
+}
+
+.section-heading h2::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--terracotta);
+  transform: translateX(-50%);
 }
 
 /* Buttons */
@@ -95,7 +135,8 @@ img {
   font-size: 15px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+    box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .btn-primary {
@@ -105,6 +146,8 @@ img {
 
 .btn-primary:hover {
   background: var(--terracotta-dark);
+  box-shadow: 0 10px 24px rgba(193, 96, 60, 0.32);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
@@ -116,6 +159,13 @@ img {
 .btn-secondary:hover {
   background: var(--text-dark);
   color: var(--cream);
+  box-shadow: 0 10px 24px rgba(51, 38, 28, 0.18);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .btn-small {
@@ -192,9 +242,10 @@ img {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease;
 }
 
-/* Gallery grid (about.html) */
+/* Gallery grid (about.html) — Instagram-style */
 
 .gallery {
   display: flex;
@@ -203,6 +254,21 @@ img {
   gap: 40px;
   padding: 96px 64px;
   background: var(--cream);
+}
+
+.gallery-handle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: -24px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--terracotta);
+  transition: color 0.3s ease;
+}
+
+.gallery-handle:hover {
+  color: var(--terracotta-dark);
 }
 
 .gallery-grid {
@@ -214,8 +280,45 @@ img {
 }
 
 .gallery-grid .photo-frame {
-  height: 260px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-grid .photo-frame:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 36px rgba(51, 38, 28, 0.2);
+}
+
+.gallery-grid .photo-frame:hover img {
+  transform: scale(1.07);
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(51, 38, 28, 0);
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.gallery-grid .photo-frame:hover .gallery-overlay {
+  opacity: 1;
+  background: rgba(51, 38, 28, 0.32);
+}
+
+.gallery-overlay svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Hero */
@@ -314,6 +417,15 @@ img {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 28px;
+  border-radius: 20px;
+  background: var(--cream);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 36px rgba(51, 38, 28, 0.12);
 }
 
 .value-card .value-index {
@@ -376,6 +488,16 @@ img {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  padding: 8px 12px;
+  margin: 0 -12px;
+  border-radius: 12px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-row:hover {
+  background: var(--cream-alt);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(51, 38, 28, 0.08);
 }
 
 .menu-row .item-name {
@@ -386,6 +508,86 @@ img {
 .menu-row .item-price {
   font-weight: 600;
   color: var(--text-dark);
+}
+
+/* Featured Drinks */
+
+.featured {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 96px 64px;
+  background: var(--cream);
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.featured-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  background: var(--cream-alt);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(51, 38, 28, 0.16);
+}
+
+.featured-photo {
+  height: 220px;
+  overflow: hidden;
+}
+
+.featured-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-card:hover .featured-photo img {
+  transform: scale(1.06);
+}
+
+.featured-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+}
+
+.featured-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.featured-row h3 {
+  font-size: 20px;
+  color: var(--text-dark);
+}
+
+.featured-price {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--terracotta);
+}
+
+.featured-info p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
 }
 
 /* Reviews */
@@ -419,6 +621,12 @@ img {
   padding: 32px;
   border-radius: 20px;
   background: var(--cream);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 36px rgba(51, 38, 28, 0.12);
 }
 
 .review-card .stars {
@@ -651,6 +859,43 @@ img {
   color: var(--copy-muted);
 }
 
+/* Scroll reveal */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .btn,
+  .menu-row,
+  .review-card,
+  .value-card,
+  .featured-card,
+  .gallery-grid .photo-frame,
+  .photo-frame img {
+    transition: none !important;
+  }
+}
+
 /* Responsive */
 
 @media (max-width: 900px) {
@@ -683,7 +928,8 @@ img {
   .menu-section,
   .hours,
   .explore,
-  .reviews {
+  .reviews,
+  .featured {
     padding: 64px 24px;
   }
 
@@ -696,13 +942,15 @@ img {
     padding: 64px 24px;
   }
 
-  .gallery-grid {
+  .gallery-grid,
+  .featured-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 560px) {
-  .gallery-grid {
+  .gallery-grid,
+  .featured-grid {
     grid-template-columns: 1fr;
   }
 
