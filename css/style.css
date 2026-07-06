@@ -282,7 +282,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 24px;
 }
 
 .about-copy h2 {
@@ -385,7 +385,60 @@ img {
 
 .menu-row .item-price {
   font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Reviews */
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 96px 64px;
+  background: var(--cream-alt);
+}
+
+.review-cards {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.review-card {
+  flex: 1;
+  min-width: 280px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  border-radius: 20px;
+  background: var(--cream);
+}
+
+.review-card .stars {
   color: var(--terracotta);
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.review-card .quote {
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-dark);
+}
+
+.review-card .reviewer {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: auto;
 }
 
 /* Hours */
@@ -471,7 +524,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 18px;
+  gap: 24px;
 }
 
 .contact-copy h2 {
@@ -542,8 +595,19 @@ img {
   gap: 16px;
 }
 
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .footer-top .logo {
   color: var(--cream);
+}
+
+.footer-contact {
+  font-size: 13px;
+  color: var(--copy-muted);
 }
 
 .social-links {
@@ -553,9 +617,23 @@ img {
 }
 
 .social-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 500;
   font-size: 14px;
   color: var(--warm-muted);
+}
+
+.social-links a svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .social-links a:hover {
@@ -604,7 +682,8 @@ img {
 
   .menu-section,
   .hours,
-  .explore {
+  .explore,
+  .reviews {
     padding: 64px 24px;
   }
 
